@@ -1,2 +1,2 @@
-# minist_test
-deeplearning demo for minist, include linear regression, cnn and so on
+# mnist_test
+deeplearning demo for mnist, include linear regression, cnn and so on
