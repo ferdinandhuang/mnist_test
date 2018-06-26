@@ -55,11 +55,12 @@ def initialize_parameters(n_x, n_h, n_y):
     return parameters
 
 
-def forward_propagation(X, parameters):
+def forward_propagation(X, parameters, activation="tanh"):
     """
     Compute the forword propagation
     :param X: input data (m, n_x)
     :param parameters: parameters from initialize_parameters
+    :param activation: activation function name, has "tanh" and "relu"
     :return:
         cache: caches of forword result
         A2: sigmoid output
@@ -73,7 +74,12 @@ def forward_propagation(X, parameters):
     b2 = parameters["b2"]
 
     Z1 = np.dot(W1, X) + b1
-    A1 = np.tanh(Z1)
+    if activation == "tanh":
+        A1 = np.tanh(Z1)
+    elif activation == "relu":
+        A1 = ReLu(Z1)
+    else:
+        raise Exception('Activation function is not found!')
     Z2 = np.dot(W2, A1) + b2
     A2 = 1 / (1 + np.exp(-Z2))
 
@@ -84,10 +90,15 @@ def forward_propagation(X, parameters):
 
     return A2, cache
 
+
+def ReLu(Z):
+    return (abs(Z) + Z) / 2
+
+
 X = train_images
 n_x, n_h, n_y = layer_size(X, train_labels)
 
 parameters = initialize_parameters(n_x, n_h, n_y)
-
-A2, cache = forward_propagation(X, parameters)
+activation = "relu"
+A2, cache = forward_propagation(X, parameters, activation)
 print(A2)
