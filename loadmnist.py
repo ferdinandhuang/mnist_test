@@ -5,10 +5,10 @@ import struct
 
 class load:
     def __init__(self,
-                 path='minist'):
+                 path='mnist'):
         self.path = path
 
-    def load_minist(self):
+    def load_mnist(self):
         """Read train and test dataset and lables from path"""
 
         train_image_path = 'train-images.idx3-ubyte'
@@ -49,7 +49,7 @@ class load:
 
 
 if __name__ == '__main__':
-    train_images, train_lables, test_images, test_lables = load().load_minist()
+    train_images, train_lables, test_images, test_lables = load().load_mnist()
     print('train_images shape:%s' % train_images.shape)
     print('train_lables shape:%s' % train_lables.shape)
     print('test_images shape:%s' % test_images.shape)
