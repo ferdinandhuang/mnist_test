@@ -1,10 +1,13 @@
 # 0-Background
+
 作为Deep Learning中的Hello World 项目无论如何都要做一遍的。
 
-代码地址：[Github](https://github.com/ferdinandhuang/mnist_test)
+代码地址：[Github](https://github.com/ferdinandhuang/mnist_test) 练习过程中将持续更新blog及代码。
 
-第一次写博客，很多地方语言组织不清，请多多提出意见。。谢谢~
+第一次写博客，很多地方可能语言组织不清，请多多提出意见。。谢谢~
+
 ## 0.1 背景知识：
+
 - Linear regression
 - CNN
 > LeNet-5
@@ -13,18 +16,21 @@
 > VGG
 - 各种regularization方式
 
-## 0.2 Catalog 
+## 0.2 Catalog
+
 - **[1-Prepare](#1-Prepare)**
 - **[2-MNIST](#2-MNIST)**
 - **[3-LinearRegression](#3-LinearRegression)**
 
 # 1-Prepare
+
 - [Numpy](http://www.numpy.org/) 开源的数值计算库
 - [matplotlib](https://matplotlib.org/) Python 的 2D绘图库
 - [TensorFlow](https://www.tensorflow.org/) 开源的人工智能学习系统
 - [Keras](https://keras.io/) 基Tensorflow、Theano以及CNTK后端的一个高层神经网络API
 
 # 2-[MNIST](http://yann.lecun.com/exdb/mnist/)
+
 MNIST作为NIST的一个超集，是一个由来自 250 个不同人手写的数字构成。其中包含60,000个训练样本和10,000个测试样本。
 加载MNIST
 
@@ -200,7 +206,7 @@ def initialize_parameters(n_x, n_h, n_y):
 
 ### 3.1.3 Forward Propagation
 
-*ReLu*的实现采用$(|Z|+Z)/2$的方式实现
+*ReLu*采用$(|Z|+Z)/2$的方式实现
 
 ```py
 def ReLu(Z):
@@ -244,4 +250,4 @@ def forward_propagation(X, parameters, activation="tanh"):
     return A2, cache
 ```
 
-### 3.1.4
+### 3.1.4 Compute Cost
