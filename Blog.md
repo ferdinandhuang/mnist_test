@@ -2,10 +2,6 @@
 
 作为Deep Learning中的Hello World 项目无论如何都要做一遍的。
 
-代码地址：[Github](https://github.com/ferdinandhuang/mnist_test) 练习过程中将持续更新blog及代码。
-
-第一次写博客，很多地方可能语言组织不清，请多多提出意见。。谢谢~
-
 ## 0.1 背景知识：
 
 - Linear regression
