@@ -2,14 +2,30 @@ import numpy as np
 import os
 import struct
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import OneHotEncoder
 
 
 class load:
     def __init__(self,
                  path='mnist'):
         self.path = path
+        self.batch_num = 0
+        train_images, train_labels, test_images, test_labels = self._load_mnist()
 
-    def load_mnist(self):
+        # One Hot Encode
+        ohe = OneHotEncoder()
+        ohe.fit([[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]])
+        train_labels_onehot = ohe.transform(train_labels).toarray()
+        test_labels_onehot = ohe.transform(test_labels).toarray()
+
+        self.train_images = train_images/255
+        self.train_labels_onehot = train_labels_onehot
+        self.train_labels = train_labels
+        self.test_images = test_images/255
+        self.test_labels_onehot = test_labels_onehot
+        self.test_labels = test_labels
+
+    def _load_mnist(self):
         """Read train and test dataset and labels from path"""
 
         train_image_path = 'train-images.idx3-ubyte'
@@ -42,9 +58,47 @@ class load:
 
         return train_images, train_labels, test_images, test_labels
 
+    def get_all_data_onehot(self):
+        return self.train_images, self.train_labels_onehot, self.test_images, self.test_labels_onehot
+
+    def get_all_data(self):
+        return self.train_images, self.train_labels, self.test_images, self.test_labels
+
+    def get_next_batch_onehot(self, batch_size=64, type="train"):
+        """
+        get data by batch_size
+        :param batch_size: number of batch
+        :return: batch of data
+        """
+
+        train_images= self.train_images
+        test_images= self.test_images
+
+        if type == "train":
+            start = self.batch_num
+            if start == train_images.shape[0]:
+                self.batch_num = 0
+                start = 0
+
+            train_labels_onehot = self.train_labels_onehot
+
+            if start + batch_size <= train_images.shape[0]:
+                end = start + batch_size
+                self.batch_num = self.batch_num + batch_size
+            else:
+                end = train_images.shape[0]
+                self.batch_num = end
+
+            return train_images[start: end], train_labels_onehot[start: end]
+        elif type == "test":
+            test_labels_onehot = self.test_labels_onehot
+            return test_images, test_labels_onehot
+        else:
+            raise Exception("Not validity type!")
+
 
 if __name__ == '__main__':
-    train_images, train_labels, test_images, test_labels = load().load_mnist()
+    train_images, train_labels, test_images, test_labels = load()._load_mnist()
     print('train_images shape:%s' % str(train_images.shape))
     print('train_labels shape:%s' % str(train_labels.shape))
     print('test_images shape:%s' % str(test_images.shape))
@@ -68,7 +122,6 @@ if __name__ == '__main__':
     label5 = test_labels[testImage[0]]
     img6 = test_images[testImage[1]].reshape(28, 28)
     label6 = test_labels[testImage[1]]
-
 
     plt.figure(num='mnist', figsize=(2, 3))
 
@@ -96,4 +149,3 @@ if __name__ == '__main__':
     plt.title(label6)
     plt.imshow(img6)
     plt.show()
-

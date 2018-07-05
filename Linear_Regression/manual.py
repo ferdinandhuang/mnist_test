@@ -5,13 +5,13 @@ import numpy as np
 sys.path.append('../')
 
 from loadmnist import load
-
+loadfnc = load('../mnist')
 # load data
-train_images, train_labels, test_images, test_labels = load('../mnist').load_mnist()
-print('train_images shape:%s' % str(train_images.shape))
-print('train_labels shape:%s' % str(train_labels.shape))
-print('test_images shape:%s' % str(test_images.shape))
-print('test_labels shape:%s' % str(test_labels.shape))
+# train_images, train_labels, test_images, test_labels = load('../mnist').load_mnist()
+# print('train_images shape:%s' % str(train_images.shape))
+# print('train_labels shape:%s' % str(train_labels.shape))
+# print('test_images shape:%s' % str(test_images.shape))
+# print('test_labels shape:%s' % str(test_labels.shape))
 
 
 def layer_size(X, Y):
@@ -88,7 +88,7 @@ def forward_propagation(X, parameters, activation="tanh"):
              "Z2": Z2,
              "A2": A2}
 
-    return A2, cache
+    return Z2, cache
 
 
 def back_propagation(parameters, cache, X, Y):
@@ -129,7 +129,7 @@ def back_propagation(parameters, cache, X, Y):
     return grads
 
 
-def update_parameters(parameters, grads, learning_rate = 1.2):
+def update_parameters(parameters, grads, learning_rate = 0.001):
     """
     Updates parameters using the gradient descent update rule given above
 
@@ -208,12 +208,11 @@ def d_loss(outputs, labels):
 
 
 
+X = loadfnc.train_images
+Y = loadfnc.train_labels_onehot
+n_x, n_h, n_y = layer_size(X, Y)
+parameters = initialize_parameters(n_x, n_h, n_y)
 for i in range(0, 20):
-    X = train_images
-    Y = train_labels
-    n_x, n_h, n_y = layer_size(X, Y)
-
-    parameters = initialize_parameters(n_x, n_h, n_y)
 
     activation = "relu"
     A2, cache = forward_propagation(X, parameters, activation)
